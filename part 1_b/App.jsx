@@ -1,4 +1,4 @@
-// App.jsx
+// zrobiony part 1
 import React from 'react'
 
 const Header = ({ course }) => <h1>{course}</h1>
