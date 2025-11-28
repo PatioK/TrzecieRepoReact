@@ -1,4 +1,3 @@
-// src/components/Course.jsx
 import React from 'react'
 
 const Header = ({ course }) => <h2>{course}</h2>
@@ -16,8 +15,13 @@ const Content = ({ parts }) => (
 )
 
 const Total = ({ parts }) => {
-  const sum = parts.reduce((acc, part) => acc + part.exercises, 0)
-  return <p><strong>Total of {sum} exercises</strong></p>
+  const total = parts
+    .map(part => part.exercises)
+    .reduce((sum, exercises) => sum + exercises, 0)
+
+  return (
+    <p><strong>Total of {total} exercises</strong></p>
+  )
 }
 
 const Course = ({ course }) => (
