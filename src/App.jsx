@@ -1,67 +1,111 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import personService from './components/Persons'
+
+const Filter = ({ filter, handleFilterChange }) => (
+  <div>
+    filter shown with <input value={filter} onChange={handleFilterChange} />
+  </div>
+)
+
+const PersonForm = ({
+  addPerson,
+  newName,
+  handleNameChange,
+  newNumber,
+  handleNumberChange,
+}) => (
+  <form onSubmit={addPerson}>
+    <div>
+      name: <input value={newName} onChange={handleNameChange} />
+    </div>
+    <div>
+      number: <input value={newNumber} onChange={handleNumberChange} />
+    </div>
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+)
+
+const Persons = ({ personsToShow }) => (
+  <div>
+    {personsToShow.map(person => (
+      <p key={person.id}>
+        {person.name} {person.number}
+      </p>
+    ))}
+  </div>
+)
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState('')
 
-  // 🔹 pobieranie danych z backendu
   useEffect(() => {
-    personService
-      .getAll()
-      .then(response => {
-        setPersons(response.data)
-      })
+    personService.getAll().then(response => {
+      setPersons(response.data)
+    })
   }, [])
 
-  const addPerson = (event) => {
+  const addPerson = event => {
     event.preventDefault()
 
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
     }
 
-    personService
-      .create(personObject)
-      .then(response => {
-        setPersons(persons.concat(response.data))
-        setNewName('')
-        setNewNumber('')
-      })
+    const nameExists = persons.some(person => person.name === newName)
+
+    if (nameExists) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
+    personService.create(personObject).then(response => {
+      setPersons(persons.concat(response.data))
+      setNewName('')
+      setNewNumber('')
+    })
   }
+
+  const handleNameChange = event => {
+    setNewName(event.target.value)
+  }
+
+  const handleNumberChange = event => {
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = event => {
+    setFilter(event.target.value)
+  }
+
+  const personsToShow = persons.filter(person =>
+    person.name.toLowerCase().includes(filter.toLowerCase())
+  )
 
   return (
     <div>
       <h2>Phonebook</h2>
 
-      <form onSubmit={addPerson}>
-        <div>
-          name:
-          <input
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-          />
-        </div>
+      <Filter filter={filter} handleFilterChange={handleFilterChange} />
 
-        <div>
-          number:
-          <input
-            value={newNumber}
-            onChange={(e) => setNewNumber(e.target.value)}
-          />
-        </div>
+      <h2>Add a new</h2>
 
-        <button type="submit">add</button>
-      </form>
+      <PersonForm
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
 
       <h2>Numbers</h2>
-      {persons.map(p => (
-        <p key={p.id}>
-          {p.name} {p.number}
-        </p>
-      ))}
+
+      <Persons personsToShow={personsToShow} />
     </div>
   )
 }
