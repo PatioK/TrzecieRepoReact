@@ -1,13 +1,17 @@
-const Persons = ({ personsToShow }) => {
-  return (
-    <ul>
-      {personsToShow.map(person =>
-        <li key={person.name}>
-          {person.name} {person.number}
-        </li>
-      )}
-    </ul>
-  )
+import axios from 'axios'
+
+const baseUrl = 'http://localhost:3001/persons'
+
+const getAll = () => {
+  return axios.get(baseUrl).then(response => response.data)
 }
 
-export default Persons
+const create = newPerson => {
+  return axios.post(baseUrl, newPerson).then(response => response.data)
+}
+
+const remove = id => {
+  return axios.delete(`${baseUrl}/${id}`).then(response => response.data)
+}
+
+export default { getAll, create, remove }
