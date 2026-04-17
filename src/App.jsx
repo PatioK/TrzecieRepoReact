@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import personService from './services/persons'
+import personService from './components/Persons'
 
 const Filter = ({ filter, handleFilterChange }) => (
   <div>
