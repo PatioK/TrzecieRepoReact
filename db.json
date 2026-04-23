@@ -14,31 +14,6 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": "4"
-    },
-    {
-      "name": "Jakub Buksik",
-      "number": "67672137420",
-      "id": "lj7YJloa0NM"
-    },
-    {
-      "name": "dwa",
-      "number": "123312",
-      "id": "iaKG4_AWuBg"
-    },
-    {
-      "name": "1231231",
-      "number": "dw123123",
-      "id": "52jWkudBfwE"
-    },
-    {
-      "name": "dwawdasdaw",
-      "number": "1231231231231",
-      "id": "vkmH_LHUjwE"
-    },
-    {
-      "name": "dwasdawdasd",
-      "number": "12312312312",
-      "id": "l-P33xb_XiY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
